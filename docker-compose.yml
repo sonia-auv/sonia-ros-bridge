@@ -1,0 +1,7 @@
+version: "3"
+services:
+  ros-bridge:
+    container_name: ros-bridge
+    image: sonia-auv/sonia-ros-bridge:local
+    build:
+      context: .
