@@ -27,9 +27,7 @@ ENV SONIA_WS_SETUP=${SONIA_WS}/devel/setup.bash
 
 WORKDIR ${SONIA_WS}
 
-## ADD EXTRA DEPENDENCIES (GIT and ROS Remote Debuging)
-RUN apt-get update \
-    && apt-get install -y ros-${ROS_DISTRO}-rosbridge-server
+RUN apt-get update && apt-get install -y ros-${ROS_DISTRO}-rosbridge-server
 
 COPY . ${NODE_PATH}
 RUN bash -c "source ${ROS_WS_SETUP}; source ${BASE_LIB_WS_SETUP}; catkin_make"
@@ -40,11 +38,7 @@ USER ${SONIA_USER}
 RUN mkdir ${SCRIPT_DIR}
 RUN cat $ENTRYPOINT_ABSPATH > ${SCRIPT_DIR}/entrypoint.sh
 RUN echo "roslaunch --wait $LAUNCH_ABSPATH" > ${SCRIPT_DIR}/launch.sh
-
 RUN chmod +x ${SCRIPT_DIR}/entrypoint.sh && chmod +x ${SCRIPT_DIR}/launch.sh
 
-
-RUN echo "source $SONIA_WS_SETUP" >> ~/.bashrc
-
 ENTRYPOINT ["./scripts/entrypoint.sh"]
-# CMD ["./scripts/launch.sh"]
+CMD ["./scripts/launch.sh"]
